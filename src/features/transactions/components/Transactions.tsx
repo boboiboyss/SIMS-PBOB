@@ -66,7 +66,7 @@ export default function Transactions() {
                         : "text-red-600"
                     }`}
                   >
-                    {transaction.transaction_type === "TOPUP" ? "+" : "-"}
+                    {transaction.transaction_type === "TOPUP" ? "+ " : "- "}
                     {transaction.total_amount.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
@@ -89,8 +89,8 @@ export default function Transactions() {
                     WIB
                   </div>
                 </div>
-                <div className="text-sm text-gray-500">
-                  {transaction.transaction_type}
+                <div className=" text-black text-right">
+                  <span>{transaction.description}</span>
                 </div>
               </div>
             );

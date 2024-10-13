@@ -4,6 +4,7 @@ import useFetchProfile from "../hooks/useFetchProfile";
 import useFetchBalance from "../hooks/useFetchBalance";
 import useFetchPromotions from "../hooks/useFetchPromotions";
 import photo from "../../../assets/Profile Photo.png";
+import { Link } from "react-router-dom";
 
 export default function () {
   const [showBalance, setShowBalance] = useState(true);
@@ -51,18 +52,24 @@ export default function () {
           </div>
         </div>
       </div>
+
+      
       <div className="flex overflow-x-auto mb-8 space-x-4">
         {services?.map((service, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <div className="mb-2">
-              <img
-                src={service?.service_icon}
-                alt={service?.service_code}
-                className="w-16 h-[70px] object-contain"
-              />
+          <Link to={`services/${service.service_code}`}>
+            <div key={index} className="flex flex-col items-center">
+              <div className="mb-2">
+                <img
+                  src={service?.service_icon}
+                  alt={service?.service_code}
+                  className="w-16 h-[70px] object-contain"
+                />
+              </div>
+              <span className="text-center text-sm">
+                {service?.service_name}
+              </span>
             </div>
-            <span className="text-center text-sm">{service?.service_name}</span>
-          </div>
+          </Link>
         ))}
       </div>
       <h2 className="text-xl font-bold mb-4">Temukan promo menarik</h2>

@@ -7,6 +7,7 @@ import TopupPage from "./page/TopupPage";
 import MainLayout from "./components/MainLayout";
 import PrivateRoute from "./components/PrivateRoute";
 import RegisterPage from "./page/auth/RegisterPage";
+import ServicePage from "./page/ServicePage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="transaction" element={<TransactionPage />} />
           <Route path="topup" element={<TopupPage />} />
+          <Route path="services/:serviceCode" element={<ServicePage />} />
         </Route>
       </Route>
     </Routes>
