@@ -17,8 +17,8 @@ export default function useLogin() {
         );
         return res.data;
       } catch (error) {
-        console.error("Login error:", error); 
-        throw error; 
+        console.error("Login error:", error);
+        throw error;
       }
     },
     onSuccess: (data) => {
@@ -31,10 +31,21 @@ export default function useLogin() {
     onError: (error) => {
       if (axios.isAxiosError(error)) {
         console.error("Axios error response:", error.response?.data);
+
+        const errorMessage = error.response?.data.message || "Login Failed!";
+
+        if (
+          errorMessage.includes("invalid credentials") ||
+          errorMessage.includes("not registered")
+        ) {
+          toast.error("Email or password is not registered");
+        } else {
+          toast.error(errorMessage);
+        }
       } else {
         console.error("Unexpected error:", error);
+        toast.error("Login Failed!");
       }
-      toast.error("Login Failed!");
     },
   });
 
