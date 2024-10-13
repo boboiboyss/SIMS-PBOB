@@ -31,7 +31,7 @@ export default function () {
           <h1 className="text-2xl font-bold">{`${profile?.first_name} ${profile?.last_name}`}</h1>
         </div>
 
-        <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg w-1/2 flex items-center justify-between">
+        <div className=" text-white p-7 rounded-lg shadow-lg w-1/2 flex items-center justify-between bg-saldo-bg bg-cover">
           <div>
             <p className="text-sm mb-1">Saldo Anda</p>
             <h2 className="text-3xl font-bold">
@@ -53,7 +53,6 @@ export default function () {
         </div>
       </div>
 
-      
       <div className="flex overflow-x-auto mb-8 space-x-4">
         {services?.map((service, index) => (
           <Link to={`services/${service.service_code}`}>
@@ -62,7 +61,7 @@ export default function () {
                 <img
                   src={service?.service_icon}
                   alt={service?.service_code}
-                  className="w-16 h-[70px] object-contain"
+                  className="w-14 h-14 object-cover"
                 />
               </div>
               <span className="text-center text-sm">

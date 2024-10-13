@@ -48,7 +48,7 @@ export default function Payment() {
           <h1 className="text-2xl font-bold">{`${profile?.first_name} ${profile?.last_name}`}</h1>
         </div>
 
-        <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg w-1/2 flex items-center justify-between">
+        <div className=" text-white p-7 rounded-lg shadow-lg w-1/2 flex items-center justify-between bg-saldo-bg bg-cover">
           <div>
             <p className="text-sm mb-1">Saldo Anda</p>
             <h2 className="text-3xl font-bold">
@@ -83,6 +83,7 @@ export default function Payment() {
           </div>
           <form>
             <input
+              readOnly
               type="text"
               className="w-full p-2 border border-gray-300 rounded mb-4"
               placeholder={service?.service_tariff.toLocaleString("id-ID", {
@@ -93,7 +94,7 @@ export default function Payment() {
               })}
             />
             <button
-              type="button" // Make sure to set the type to button to prevent form submission
+              type="button"
               onClick={handlePayment}
               className="w-full bg-red-600 text-white py-2 rounded"
             >

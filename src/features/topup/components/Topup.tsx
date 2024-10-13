@@ -35,7 +35,7 @@ export default function Topup() {
           <h1 className="text-2xl font-bold">{`${profile?.first_name} ${profile?.last_name}`}</h1>
         </div>
 
-        <div className="bg-red-500 text-white p-6 rounded-lg shadow-lg w-1/2 flex items-center justify-between">
+        <div className=" text-white p-7 rounded-lg shadow-lg w-1/2 flex items-center justify-between bg-saldo-bg bg-cover">
           <div>
             <p className="text-sm mb-1">Saldo Anda</p>
             <h2 className="text-3xl font-bold">
