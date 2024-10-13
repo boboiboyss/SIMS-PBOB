@@ -15,11 +15,10 @@ export default function useRegister() {
           "https://take-home-test-api.nutech-integrasi.com/registration",
           data.data
         );
-
         return res.data;
       } catch (error) {
-        console.error("Registration error:", error); 
-        throw error; 
+        console.error("Registration error:", error);
+        throw error;
       }
     },
     onSuccess: () => {
@@ -28,11 +27,22 @@ export default function useRegister() {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        console.error("Axios error response:", error.response?.data); 
+        console.error("Axios error response:", error.response?.data);
+
+        const errorMessage = error.response?.data.message || "Register Failed!";
+
+        if (
+          errorMessage.includes("email already exists") ||
+          errorMessage.includes("already registered")
+        ) {
+          toast.error("This email is already registered.");
+        } else {
+          toast.error(errorMessage);
+        }
       } else {
         console.error("Unexpected error:", error);
+        toast.error("Register Failed!");
       }
-      toast.error("Register Failed!");
     },
   });
 
@@ -70,8 +80,7 @@ export default function useRegister() {
         return;
       }
 
-      // Submit if validation passes
-      await mutateAsync({ data: values.value }); // Pastikan data sesuai dengan struktur yang diharapkan
+      await mutateAsync({ data: values.value });
     },
   });
 
