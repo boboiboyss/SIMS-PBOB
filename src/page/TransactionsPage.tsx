@@ -1,7 +1,9 @@
-export default function Transaction() {
+import Transactions from "../features/transactions/components/Transactions";
+
+export default function TransactionPage() {
   return (
     <div>
-      <p>Ini halaman transaction</p>
+      <Transactions />
     </div>
   );
 }

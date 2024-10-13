@@ -3,23 +3,13 @@ import useFetchProfile from "../../home/hooks/useFetchProfile";
 import useUpdateProfile from "../hooks/useUpdateProfile";
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
+import photo from "../../../assets/Profile Photo.png";
 
 export default function Profile() {
   const navigate = useNavigate();
 
   const { profile } = useFetchProfile();
   const { form } = useUpdateProfile();
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setProfileImage(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -30,7 +20,7 @@ export default function Profile() {
     <div className="w-full max-w-[600px] mx-auto p-6 bg-white rounded-md text-center">
       <div className="flex justify-center items-center mb-4 relative">
         <img
-          src={profile?.profile_image}
+          src={photo || profile?.profile_image}
           alt="Profile picture of a person"
           className="rounded-full w-24 h-24"
         />
@@ -45,7 +35,7 @@ export default function Profile() {
           type="file"
           accept="image/*"
           className="hidden"
-          // onChange={handleImageChange} // Panggil fungsi saat file diunggah
+          // onChange={handleImageChange}
         />
       </div>
       <h1 className="text-2xl font-semibold mb-6">{`${profile?.first_name} ${profile?.last_name}`}</h1>
@@ -63,7 +53,7 @@ export default function Profile() {
             type="email"
             value={profile?.email}
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-            readOnly // Email tetap read-only
+            readOnly
           />
         </div>
 

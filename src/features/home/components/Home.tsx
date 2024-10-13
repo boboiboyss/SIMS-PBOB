@@ -3,6 +3,7 @@ import useFetchService from "../hooks/useFetchService";
 import useFetchProfile from "../hooks/useFetchProfile";
 import useFetchBalance from "../hooks/useFetchBalance";
 import useFetchPromotions from "../hooks/useFetchPromotions";
+import photo from "../../../assets/Profile Photo.png";
 
 export default function () {
   const [showBalance, setShowBalance] = useState(true);
@@ -21,7 +22,7 @@ export default function () {
       <div className="flex items-center justify-between mb-8">
         <div className="flex flex-col space-y-2 justify-start">
           <img
-            src={profile?.profile_image}
+            src={photo || profile?.profile_image}
             alt="Avatar pengguna"
             className="rounded-full border-2 border-gray-300 w-20 h-20"
           />
@@ -33,7 +34,14 @@ export default function () {
           <div>
             <p className="text-sm mb-1">Saldo Anda</p>
             <h2 className="text-3xl font-bold">
-              {showBalance ? `${balance?.balance}` : "Rp ••••••••"}{" "}
+              {showBalance
+                ? balance?.balance.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })
+                : "Rp ••••••••"}{" "}
             </h2>
           </div>
           <div onClick={toggleBalanceVisibility} className="cursor-pointer">

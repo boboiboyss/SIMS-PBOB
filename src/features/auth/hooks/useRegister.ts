@@ -1,26 +1,13 @@
 import { useForm } from "@tanstack/react-form";
-import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { RegisterDto } from "../dto/RegisterDTO";
 import { useNavigate } from "react-router-dom";
 
-const registerSchema = z
-  .object({
-    email: z.string().email("Must be a valid email"),
-    first_name: z.string().min(2, "First name is required"),
-    last_name: z.string().min(2, "Last name is required"),
-    password: z.string().min(6, "Password must be at least 6 characters long"),
-    confirmPassword: z.string().min(6, "Confirm password is required"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords must match",
-    path: ["confirmPassword"],
-  });
-
 export default function useRegister() {
   const navigate = useNavigate();
+
   const { mutateAsync } = useMutation({
     mutationFn: async (data: RegisterDto) => {
       try {
@@ -28,10 +15,11 @@ export default function useRegister() {
           "https://take-home-test-api.nutech-integrasi.com/registration",
           data.data
         );
+
         return res.data;
       } catch (error) {
-        console.error("Registration error:", error); // Log the error for debugging
-        throw error; // Re-throw the error to trigger onError
+        console.error("Registration error:", error); 
+        throw error; 
       }
     },
     onSuccess: () => {
@@ -40,7 +28,7 @@ export default function useRegister() {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        console.error("Axios error response:", error.response?.data); // Log response error
+        console.error("Axios error response:", error.response?.data); 
       } else {
         console.error("Unexpected error:", error);
       }
@@ -57,17 +45,33 @@ export default function useRegister() {
       confirmPassword: "",
     },
     onSubmit: async (values) => {
-      await mutateAsync(registerSchema.safeParse(values.value));
+      // Validasi manual
+      const { email, first_name, last_name, password, confirmPassword } =
+        values.value;
 
-      // Validate with Zod
-      const result = registerSchema.safeParse(values.value);
-      if (!result.success) {
-        // Menampilkan error jika validasi gagal
-        toast.error(result.error.errors[0].message);
+      if (
+        !email ||
+        !first_name ||
+        !last_name ||
+        !password ||
+        !confirmPassword
+      ) {
+        toast.error("All fields are required!");
         return;
       }
+
+      if (password.length < 8) {
+        toast.error("Password must be at least 8 characters long!");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        toast.error("Passwords must match!");
+        return;
+      }
+
       // Submit if validation passes
-      //   await mutateAsync(result.data);
+      await mutateAsync({ data: values.value }); // Pastikan data sesuai dengan struktur yang diharapkan
     },
   });
 

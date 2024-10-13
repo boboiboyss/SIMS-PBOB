@@ -1,19 +1,12 @@
-import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { UpdateProfileDto } from "../dto/UpdateProfileDTO";
 
-const registerSchema = z.object({
-  first_name: z
-    .string()
-    .min(3, "First name must be at least 3 characters long"),
-  last_name: z.string().min(3, "Last name must be at least 3 characters long"),
-});
-
 export default function useUpdateProfile() {
   const queryClient = useQueryClient();
+
   const { mutateAsync } = useMutation({
     mutationFn: async (data: UpdateProfileDto) => {
       const token = localStorage.getItem("token");
@@ -29,8 +22,8 @@ export default function useUpdateProfile() {
         );
         return res.data;
       } catch (error) {
-        console.error("Login error:", error); // Log the error for debugging
-        throw error; // Re-throw the error to trigger onError
+        console.error("Update profile error:", error);
+        throw error;
       }
     },
     onSuccess: () => {
@@ -39,11 +32,11 @@ export default function useUpdateProfile() {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        console.error("Axios error response:", error.response?.data); // Log response error
+        console.error("Axios error response:", error.response?.data);
       } else {
         console.error("Unexpected error:", error);
       }
-      toast.error("User updated failed!");
+      toast.error("User update failed!");
     },
   });
 
@@ -53,13 +46,18 @@ export default function useUpdateProfile() {
       last_name: "",
     },
     onSubmit: async (values) => {
-      await mutateAsync(registerSchema.safeParse(values.value));
+      const { first_name, last_name } = values.value;
 
-      const result = registerSchema.safeParse(values.value);
-      if (!result.success) {
-        toast.error(result.error.errors[0].message);
+      if (!first_name || first_name.length < 3) {
+        toast.error("First name must be at least 3 characters long");
         return;
       }
+
+      if (!last_name || last_name.length < 3) {
+        toast.error("Last name must be at least 3 characters long");
+        return;
+      }
+      await mutateAsync({ data: values.value });
     },
   });
 

@@ -1,15 +1,9 @@
-import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoginDto } from "../dto/LoginDTO";
-
-const registerSchema = z.object({
-  email: z.string().email("Must be a valid email"),
-  password: z.string().min(8, "Password must be at least 8 characters long"),
-});
 
 export default function useLogin() {
   const navigate = useNavigate();
@@ -23,8 +17,8 @@ export default function useLogin() {
         );
         return res.data;
       } catch (error) {
-        console.error("Login error:", error); // Log the error for debugging
-        throw error; // Re-throw the error to trigger onError
+        console.error("Login error:", error); 
+        throw error; 
       }
     },
     onSuccess: (data) => {
@@ -36,7 +30,7 @@ export default function useLogin() {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        console.error("Axios error response:", error.response?.data); // Log response error
+        console.error("Axios error response:", error.response?.data);
       } else {
         console.error("Unexpected error:", error);
       }
@@ -50,12 +44,8 @@ export default function useLogin() {
       password: "",
     },
     onSubmit: async (values) => {
-      await mutateAsync(registerSchema.safeParse(values.value));
-      const result = registerSchema.safeParse(values.value);
-      if (!result.success) {
-        toast.error(result.error.errors[0].message);
-        return;
-      }
+      const { email, password } = values.value;
+      await mutateAsync({ data: { email, password } });
     },
   });
 
