@@ -66,6 +66,7 @@ export default function Transactions() {
                         : "text-red-600"
                     }`}
                   >
+                    {transaction.transaction_type === "TOPUP" ? "+" : "-"}
                     {transaction.total_amount.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
