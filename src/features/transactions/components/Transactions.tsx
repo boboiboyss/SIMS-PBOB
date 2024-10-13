@@ -59,7 +59,13 @@ export default function Transactions() {
                 className="flex justify-between items-center border p-2 border-gray-300 rounded-xl mb-4"
               >
                 <div className="flex flex-col w-full pr-4">
-                  <div className="text-lg text-green-600">
+                  <div
+                    className={`text-lg font-bold ${
+                      transaction.transaction_type === "TOPUP"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
                     {transaction.total_amount.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
