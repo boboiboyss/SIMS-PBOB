@@ -61,7 +61,7 @@ export default function () {
                 className="w-16 h-[70px] object-contain"
               />
             </div>
-            <span className="text-center text-sm">{service?.service_code}</span>
+            <span className="text-center text-sm">{service?.service_name}</span>
           </div>
         ))}
       </div>
